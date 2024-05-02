@@ -7,6 +7,7 @@ def classify_nn(training_filename, k):
   
   #Load Training Dataset
   f = open(training_filename, 'r')
+  f.readline()
   lines = f.read().split('\n')
   no_attributes = len(lines[0].split(",")) - 1
   for i in range(len(lines)):

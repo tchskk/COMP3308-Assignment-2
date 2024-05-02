@@ -64,6 +64,7 @@ def nb(filename):
 
   #Load Training Dataset
   f = open(filename, 'r')
+  f.readline()
   lines = f.read().split('\n')
   no_attributes = len(lines[0].split(",")) - 1
   for i in range(len(lines)):
