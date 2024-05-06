@@ -3,6 +3,10 @@ def classify_nn(training_filename, k):
   
   X = []
   y = []
+  tp = 0
+  fp = 0
+  tn = 0
+  fn = 0
   no_attributes = 0
   
   #Load Training Dataset
@@ -38,6 +42,17 @@ def classify_nn(training_filename, k):
       prediction = max(neighbours, key=neighbours.count)
       if prediction == y_test[i]:
         acc += 1
+      nonlocal tp, fp, fn, tn
+      if prediction == 'yes':
+        if y_test[i] == 'yes':
+          tp += 1
+        elif y_test[i] == 'no':
+          fp += 1
+      elif prediction == 'no':
+        if y_test[i] == 'yes':
+          fn += 1
+        elif y_test[i] == 'no':
+          tn += 1
     #print(acc/float(len(X_test)))
     return acc/float(len(X_test))
   
@@ -48,8 +63,13 @@ def classify_nn(training_filename, k):
     y_train, y_test = [y[i] for i in train_ix], [y[i] for i in test_ix]
 
     ave_acc += predict(X_train, y_train, X_test, y_test)
-
+  print(f"True Positive : {tp}")
+  print(f"False Positive : {fp}")
+  print(f"True Negative : {tn}")
+  print(f"False Negative : {fn}")
+  print(f"Precision : {tn/(tn+fn)}")
+  print(f"Recall : {tn/(tn+fp)}")
   return (ave_acc/10)*100
 
-print(classify_nn('pima.csv', 5))
-print(classify_nn('occupancy.csv', 5))
+print(f"Accuracy : {classify_nn('pima.csv', 1)}")
+print(f"Accuracy : {classify_nn('occupancy.csv', 1)}")
