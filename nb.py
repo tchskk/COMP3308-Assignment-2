@@ -62,6 +62,11 @@ def nb(filename):
   X = []
   y = []
 
+  tp = 0
+  fp = 0
+  tn = 0
+  fn = 0
+
   #Load Training Dataset
   f = open(filename, 'r')
   f.readline()
@@ -84,10 +89,24 @@ def nb(filename):
     for i in range(len(predictions)):
       if predictions[i] == y_test[i]:
         acc += 1
+      if predictions[i] == 'yes':
+        if y_test[i] == 'yes':
+          tp += 1
+        elif y_test[i] == 'no':
+          fp += 1
+      elif predictions[i] == 'no':
+        if y_test[i] == 'yes':
+          fn += 1
+        elif y_test[i] == 'no':
+          tn += 1
     #print(acc/float(len(X_test)))
     ave_acc += acc/float(len(X_test))
-
+  print(f"True Positive : {tp}")
+  print(f"False Positive : {fp}")
+  print(f"True Negative : {tn}")
+  print(f"False Negative : {fn}")
+  print(f"Precision : {tn/(tn+fn)}")
+  print(f"Recall : {tn/(tn+fp)}")
   return (ave_acc/10)*100
-
-print(nb('pima.csv'))
-print(nb('occupancy.csv'))
+print(f"Accuracy : {nb('pima.csv')}")
+print(f"Accuracy : {nb('occupancy.csv')}")
